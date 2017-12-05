@@ -1,35 +1,64 @@
 (ns aoc-2017.01.core
   (:require [clojure.test :refer [are is with-test]]))
 
-(defn circular-digit-array
-  [s]
-  (map #(Character/digit % 10) (conj (vec s) (first s))))
+(defn half [n] (/ n 2))
 
-(defn solve
+(defn digit-array
+  [s]
+  (map #(Character/digit % 10) (seq s)))
+
+(defn find-matches
+  [input digit-selector]
+  (let [digits (digit-array input)
+        len (count digits)]
+    (loop [acc 0
+           pos 0]
+      (if (= pos len)
+        acc
+        (let [a (nth digits pos)
+              b (nth digits (mod (+ pos (digit-selector len)) len))]
+          (recur (+ acc (if (= a b) a 0))
+                 (inc pos)))))))
+
+(defn solve-01
   [input]
-  (loop [acc 0
-         digits (circular-digit-array input)]
-    (if (> (count digits) 1)
-      (let [[a b] digits]
-        (recur (+ acc (if (= a b) a 0))
-               (drop 1 digits)))
-      acc)))
+  (find-matches input (fn [& rest] 1)))
+
+(defn solve-02
+  [input]
+  (find-matches input #(half %)))
 
 (with-test
   (def examples)
 
-  (are [input output] (= (solve input) output)
+  ; Part 1 Tests
+  (are [input output] (= (solve-01 input) output)
     "1122" 3
     "1111" 4
     "1234" 0
-    "91212129" 9))
+    "91212129" 9)
+
+  ; Part 2 Tests
+  (are [in out] (= (solve-02 in) out)
+    "1212" 6
+    "1221" 0
+    "123425" 4
+    "123123" 12
+    "12131415" 4))
 
 
-(def chpt "01")
-(def filename "src/aoc-2017/01/input")
-(defn get-solution [] (solve (slurp filename)))
+(def day "01")
+(def filename (str "src/aoc-2017/" day "/input"))
+(def challenge-input (slurp filename))
+
+(defn print-ans [day part solver] (println (str day "." part) "answer:" (solver)))
 
 (defn -main
   [& args]
-  (println "Chapter" chpt "answer:" (get-solution)))
+  (doall (map #(print-ans day (inc %1) %2)
+              (range) [get-solution-01 get-solution-02])))
+
+; =>
+; 01.1 answer: 1141
+; 01.2 answer: 950
 
