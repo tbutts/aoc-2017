@@ -11,22 +11,14 @@
   [input digit-selector]
   (let [digits (digit-array input)
         len (count digits)]
-    (loop [acc 0
-           pos 0]
-      (if (= pos len)
-        acc
-        (let [a (nth digits pos)
-              b (nth digits (mod (+ pos (digit-selector len)) len))]
-          (recur (+ acc (if (= a b) a 0))
-                 (inc pos)))))))
+    (apply + (map (fn select-when-matching [a pos]
+                    (let [b (nth digits (mod (+ pos (digit-selector len)) len))]
+                      (if (= a b) a 0)))
+                  digits (range)))))
 
-(defn solve-01
-  [input]
-  (find-matches input (fn [& rest] 1)))
-
-(defn solve-02
-  [input]
-  (find-matches input #(half %)))
+(defn solver [f] (fn solve-x [input] (find-matches input f)))
+(def solve-01 (solver (constantly 1)))
+(def solve-02 (solver #(half %)))
 
 (with-test
   (def examples)
@@ -52,11 +44,11 @@
 (def challenge-input (slurp filename))
 
 (defn print-ans [day part solver] (println (str day "." part) "answer:" (solver)))
+(defn run [solvers] (dorun (map #(print-ans day (inc %1) %2) (range) solvers)))
 
 (defn -main
   [& args]
-  (doall (map #(print-ans day (inc %1) %2)
-              (range) [get-solution-01 get-solution-02])))
+  (run [get-solution-01 get-solution-02]))
 
 ; =>
 ; 01.1 answer: 1141
