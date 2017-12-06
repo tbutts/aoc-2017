@@ -1,5 +1,6 @@
 (ns aoc-2017.01.core
-  (:require [clojure.test :refer [are is with-test]]))
+  (:require [clojure.test :refer [are is with-test]]
+            [aoc-2017.common :as aoc]))
 
 (defn half [n] (/ n 2))
 
@@ -40,15 +41,14 @@
 
 
 (def day "01")
-(def filename (str "src/aoc-2017/" day "/input"))
-(def challenge-input (slurp filename))
+(def challenge-input (slurp (aoc/input-filename day)))
 
-(defn print-ans [day part solver] (println (str day "." part) "answer:" (solver)))
-(defn run [solvers] (dorun (map #(print-ans day (inc %1) %2) (range) solvers)))
+(def get-solution-01 #(solve-01 challenge-input))
+(def get-solution-02 #(solve-02 challenge-input))
 
 (defn -main
   [& args]
-  (run [get-solution-01 get-solution-02]))
+  (aoc/run day [get-solution-01 get-solution-02]))
 
 ; =>
 ; 01.1 answer: 1141

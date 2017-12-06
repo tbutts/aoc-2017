@@ -1,6 +1,7 @@
 (ns aoc-2017.02.core
   (:require [clojure.test :refer [are is with-test]]
-            [clojure.string :as str]))
+            [clojure.string :as str]
+            [aoc-2017.common :as aoc]))
 
 (def maxs (partial apply max))
 (def mins (partial apply min))
@@ -30,17 +31,15 @@
 (def checksum1 (partial checksum diff-max-min))
 (def checksum2 (partial checksum only-even-divisors))
 
-(defn digit-array
-  [s]
-  (map #(Integer/parseInt % 10) (str/split s #"\s+")))
+; Convert the input file into a matrix of integers
+(defn digit-array [s] (map #(Integer/parseInt % 10) (str/split s #"\s+")))
+(defn parse-input [input] (map digit-array (str/split-lines input)))
 
-(defn parse-input
-  [input]
-  (map digit-array (str/split-lines input)))
 
 (with-test
   (def example "5 1 9 5\n7 5 3\n2 4 6 8")
 
+  ; Part 1 tests (difference of max and min numbers)
   (are [in out] (= (diff-max-min in) out)
     [5 1 9 5] 8
     [7 5 3] 4
@@ -48,6 +47,7 @@
 
   (is (= (checksum1 (parse-input example)) 18))
 
+  ; Part 2 tests (evenly divisible numbers)
   (are [in out] (= (only-even-divisors in) out)
     [5 9 2 8] 4
     [9 4 7 3] 3
@@ -55,16 +55,13 @@
 
 
 (def day "02")
-(def filename (str "src/aoc-2017/" day "/input"))
-(def challenge-input (slurp filename))
+(def challenge-input (slurp (aoc/input-filename day)))
+(def parsed (parse-input challenge-input))
 
-(def solve-01 #(checksum1 (parse-input challenge-input)))
-(def solve-02 #(checksum2 (parse-input challenge-input)))
-
-(defn print-ans [day part solver] (println (str day "." part) "answer:" (solver)))
-(defn run [solvers] (dorun (map-indexed #(print-ans day (inc %1) %2) solvers)))
+(def get-solution-01 #(checksum1 parsed))
+(def get-solution-02 #(checksum2 parsed))
 
 (defn -main
   [& args]
-  (run [solve-01 solve-02]))
+  (aoc/run day [get-solution-01 get-solution-02]))
 
