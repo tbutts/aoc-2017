@@ -50,4 +50,27 @@ produced that has been seen before?
 
 To begin, get your puzzle input.
 
+Your puzzle answer was `4074`.
+
+_The first half of this puzzle is complete! It provides one gold star: *_
+
+# --- Part Two ---
+
+Out of curiosity, the debugger would also like to know the size of the
+loop: starting from a state that has already been seen, how many block
+redistribution cycles must be performed before that same state is seen
+again?
+
+In the example above, `2 4 1 2` is seen again after four cycles, and so
+the answer in that example would be `4`.
+
+**How many cycles** are in the infinite loop that arises from the
+configuration in your puzzle input?
+
+Your puzzle answer was `2793`.
+
+_Both parts of this puzzle are complete! They provide two gold stars: **_
+
+At this point, you should return to your advent calendar and try
+another puzzle.
 

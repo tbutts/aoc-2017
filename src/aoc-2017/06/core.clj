@@ -33,15 +33,16 @@
   found. Returns the number of redistribution steps until a cycle was
   found."
   [init]
-  (loop [seen #{init}
+  (loop [seen {init 0}
          banks init]
     (let [[idx rtimes] (max-bank banks)
           next-banks (redistribute (assoc banks idx 0)
                                    (next-idx idx (count banks))
-                                   0 rtimes)]
-      (if (contains? seen next-banks)
-        (count seen)
-        (recur (conj seen next-banks) next-banks)))))
+                                   0 rtimes)
+          step (count seen)]
+      (if-let [cycle-start (get seen next-banks)]
+        {:total step :loop-size (- step cycle-start)}
+        (recur (assoc seen next-banks step) next-banks)))))
 
 (with-test
   (def scenario1 [0 2 7 0])
@@ -51,5 +52,8 @@
 (def day "06")
 (def input
   (->> (aoc/input-filename day) slurp (#(str/split % #"\s+")) (mapv #(Integer/parseInt %))))
-(defn part1 [] (realloc-banks input))
+(defn part1 [] (-> (realloc-banks input) :total))
 ; => 4074
+
+(defn part2 [] (-> (realloc-banks input) :loop-size))
+
