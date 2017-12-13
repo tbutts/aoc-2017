@@ -1,14 +1,10 @@
 (ns aoc-2017.07.core
-  (:require [aoc-2017.common :as aoc]
-            [clojure.test :refer [are is with-test]]
+  (:require [clojure.test :refer [are is with-test]]
             [clojure.string :as str]
-            [clojure.set :as set]))
+            [clojure.set :as set])
+  (:use [aoc-2017.common]))
 
 ;(defn parse-int [n] (Integer/parseInt n 10))
-
-(def blacklist-re #"[(),>\\-]")
-(defn parse-line [line] (-> line (str/replace blacklist-re "") (str/split #"\s+")))
-(defn parse-input [input] (map parse-line (str/split-lines input)))
 
 (defn parents-and-kids
   "Collects two sets of all parent progs and child progs, returning the two in a vector."
@@ -22,6 +18,11 @@
   `progs` is a seq of seqs, '([<program> <weight> <sub-prog> ...] [...])"
   [progs]
   (->> (parents-and-kids progs) (apply set/difference) first))
+
+
+(def blacklist-re #"[(),>\\-]")
+(defn parse-line [line] (-> line (str/replace blacklist-re "") (str/split #"\s+")))
+(defn parse-input [input] (map parse-line (str/split-lines input)))
 
 (with-test
   (def example
@@ -41,8 +42,6 @@ cntj (57)")
 
   (is (= (find-root (parse-input example)) "tknk")))
 
-(def day "07")
-(def input
-  (->> (aoc/input-filename day) (slurp) parse-input))
+(def input (parse-input (input-for-day "07")))
 
 

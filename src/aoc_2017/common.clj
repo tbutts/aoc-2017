@@ -1,4 +1,7 @@
-(ns aoc-2017.common)
+(ns aoc-2017.common
+  (:require [clojure.java.io :as io]))
+
+(defn input-for-day [day] (-> (str day "/input") io/resource slurp))
 
 (defn input-filename [day] (str "src/aoc-2017/" day "/input"))
 

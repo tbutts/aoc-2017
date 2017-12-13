@@ -3,4 +3,5 @@
   :main nil
   :bootclasspath true
   :target-path "target/%s"
-  :profiles {:uberjar {:aot :all}})
+  :profiles {:uberjar {:aot :all}
+             :dev {:resource-paths ["resource"]}})
