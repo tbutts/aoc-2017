@@ -34,3 +34,22 @@ the registers are named, and leaves that to you to determine.
 
 **What is the largest value in any register** after completing the
 instructions in your puzzle input?
+
+Your puzzle answer was `7787`.
+
+_The first half of this puzzle is complete! It provides one gold star: *_
+
+# --- Part Two ---
+
+To be safe, the CPU also needs to know **the highest value held in any
+register during this process** so that it can decide how much memory
+to allocate to these operations. For example, in the above
+instructions, the highest value ever held was 10 (in register c after
+the third instruction was evaluated).
+
+Your puzzle answer was `8997`.
+
+_Both parts of this puzzle are complete! They provide two gold stars: **_
+
+At this point, you should return to your advent calendar and try another puzzle.
+
