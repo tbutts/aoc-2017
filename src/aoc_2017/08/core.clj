@@ -9,22 +9,23 @@
 
 (defn process
   [regs instruction]
-  (let [[target inc-dec amt _ reg cmp val] (str/split instruction #" ")
-        registers (update regs target #(or %1 0))] ; Default target reg to 0
-    (if ((comparer cmp) (get registers reg 0) (Integer. val))
-      (update registers target + ((if (= inc-dec "inc") + -) (Integer. amt)))
-      registers)))
+  (let [[target op val _ cmp-reg cmp-test cmp-val] (str/split instruction #" ")]
+    (if ((comparer cmp-test) (get regs cmp-reg 0) (Integer. cmp-val))
+      (update regs target
+              (fnil + 0)
+              ((if (= op "inc") + -) (Integer. val)))
+      regs)))
 
 (def run-prog (partial reduce process {}))
 (def largest-reg (comp #(apply max %) vals))
 
 (defn run-prog-keep-largest [insns]
-  (second (reduce (fn [[regs acc] insn]
-             (let [rs (process regs insn)]
-               [rs (max (largest-reg rs) acc)]))
-           [{} 0] insns)))
+  (->> insns
+       (reductions process {})
+       (mapcat vals)
+       (apply max)))
 
-;; Part 1
+;; Parts 1 & 2
 (def parse-and-run-p1 (comp largest-reg run-prog str/split-lines))
 (def parse-and-run-p2 (comp run-prog-keep-largest str/split-lines))
 
