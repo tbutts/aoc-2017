@@ -9,6 +9,7 @@
 (def base-state
   {:level 0
    :score 0
+   :chars 0
    :garbage? false
    :skip? false})
 
@@ -20,14 +21,13 @@
       (:garbage? state) (case ch
                           \! (new-state :skip? true)
                           \> (new-state :garbage? false)
-                          state)
+                          (update state :chars inc))
       :else (case ch
               \{ (update state :level inc)
               \} (-> state
                      (update :score + (:level state))
                      (update :level dec))
               \< (new-state :garbage? true)
-              \> (new-state :garbage? false)
               state))))
 
 (defn stream-process [^Reader res]
@@ -35,9 +35,7 @@
     (reduce step base-state (char-seq rdr))))
 
 (def stream-process-score (comp :score stream-process))
-
-;(defn sproc-str [s] (stream-process (StringReader. s)))
-;(defn sproc-res [res] (stream-process (io/resource res)))
+(def stream-process-chars (comp :chars stream-process))
 
 (with-test
   (def tests)
@@ -51,7 +49,19 @@
     "{{<ab>},{<ab>},{<ab>},{<ab>}}" 9
     "{{<!!>},{<!!>},{<!!>},{<!!>}}" 9
     "{{<a!>},{<a!>},{<a!>},{<ab>}}" 3
-    ))
+    )
+
+  (are [in expect] (= (stream-process-chars (StringReader. in)) expect)
+    "<>" 0
+    "<random characters>" 17
+    "<<<<>" 3
+    "<{!>}>" 2
+    "<!!>" 0
+    "<!!!>>" 0
+    "<{o\"i!a,<{i<a>" 10))
 
 (defn part1 [] (stream-process-score (io/resource "09/input")))
 ; => 21037
+
+(defn part2 [] (stream-process-chars (io/resource "09/input")))
+
