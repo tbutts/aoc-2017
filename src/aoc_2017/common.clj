@@ -26,6 +26,8 @@
 (defn split-commas [s] (str/split s #","))
 (defn parse-int [s] (java.lang.Integer/parseInt s 10))
 
+(defn hexify [bytes] (str/join (map (partial format "%02x") bytes)))
+
 ;; Math
 (defn abs [n] (max n (- n)))
 
