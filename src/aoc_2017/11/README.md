@@ -36,3 +36,10 @@ For example:
   * ` ne,ne,s,s ` is ` 2 ` steps away ( ` se,se ` ). 
   * ` se,sw,se,sw,sw ` is ` 3 ` steps away ( ` s,s,sw ` ). 
 
+##  \--- Part Two ---
+
+_How many steps away_ is the _furthest_ he ever got from his starting
+position?
+
+Both parts of this puzzle are complete! They provide two gold stars: **
+

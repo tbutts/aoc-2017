@@ -22,7 +22,7 @@
 
 (defn follow-directions [^Reader res]
   (with-open [rdr (clojure.java.io/reader res)]
-    (reduce neighbor origin (map no-spaces (comma-seq rdr)))))
+    (reduce neighbor origin (map #(.trim %) (comma-seq rdr)))))
 
 (defn distance
   ([hex] (distance origin hex))
@@ -31,10 +31,29 @@
          (abs (+ aq ar (- bq) (- br)))
          (abs (- ar br))) 2)))
 
+;; Part 2 iteratively
+(defn follow-max-distance [^Reader res]
+  (with-open [rdr (io/reader res)]
+    (second (reduce (fn [[hex max-dist] dir]
+                      (let [next (neighbor hex dir)]
+                        [next (max max-dist (distance next))]))
+                    [origin 0] (comma-seq rdr)))))
+
+;; Part 2 in much denser operations
+(defn follow-max-distance-densely [^Reader res]
+  (with-open [rdr (clojure.java.io/reader res)]
+    (->> (reductions neighbor origin (doall (comma-seq rdr)))
+         (map distance)
+         (apply max))))
+
 
 (defn part1 []
   (-> (io/resource "11/input") follow-directions distance))
 ; => 705
+
+(defn part2 []
+  (-> (io/resource "11/input") follow-max-distance))
+; => 1469
 
 (with-test
   (def examples)
@@ -43,4 +62,6 @@
     "ne,ne,ne"       3
     "ne,ne,sw,sw"    0
     "ne,ne,s,s"      2
-    "se,sw,se,sw,sw" 3))
+    "se,sw,se,sw,sw" 3)
+
+  (is (= (-> (StringReader. "ne,ne,sw,sw") follow-max-distance) 2)))
