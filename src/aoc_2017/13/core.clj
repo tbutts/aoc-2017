@@ -23,10 +23,21 @@
                (if (caught? (dec d) r) (conj alerts scanner) alerts))
           [] fw))
 
+(defn find-lowest-opening-picosecond
+  [fw]
+  (->> (range)
+       (filter (fn [time]
+                 (not-any? (fn [[range depth]] (caught? (dec depth) (+ range time))) fw)))
+       (first)))
+
 
 (defn part1 []
   (->> (input-for-day "13") parse take-trip trip-severity))
 ;; => 1612
+
+(defn part2 []
+  (->> (input-for-day "13") parse find-lowest-opening-picosecond))
+;; => 3907994
 
 (with-test
   (def example
@@ -35,4 +46,5 @@
 4: 4
 6: 4")
 
-  (is (= (->> (parse example) take-trip trip-severity) 24)))
+  (is (= (->> (parse example) take-trip trip-severity) 24))
+  (is (= (->> (parse example) find-lowest-opening-picosecond) 10)))
