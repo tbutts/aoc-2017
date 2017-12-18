@@ -46,6 +46,7 @@
       (str/join text))))
 
 (defn no-spaces [s] (str/replace s #"\s+" ""))
+(defn split-spaces [s] (str/split s #"\s+"))
 (defn split-commas [s] (str/split s #","))
 (defn parse-int [s] (java.lang.Integer/parseInt s 10))
 
