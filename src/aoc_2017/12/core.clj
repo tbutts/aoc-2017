@@ -21,10 +21,22 @@
             (remove visited (mapcat graph nodes))
             (into visited nodes)))))
 
+(defn subgraphs
+  [graph]
+  (second
+   (reduce (fn [[visited n :as acc] vertex]
+             (if (contains? visited vertex)
+               acc
+               [(into visited (connections graph vertex)) (inc n)]))
+           [#{} 0] (keys graph))))
 
 (defn part1 []
   (-> (input-for-day "12") parse (connections 0) count))
 ;; => 130
+
+(defn part2 []
+  (-> (input-for-day "12") parse subgraphs))
+;; => 189
 
 (with-test
   (def example
@@ -36,5 +48,6 @@
 5 <-> 6
 6 <-> 4, 5")
 
-  (is (= (-> (parse example) (connections 0) count) 6)))
+  (is (= (-> (parse example) (connections 0) count) 6))
+  (is (= (-> (parse example) subgraphs) 2)))
 
