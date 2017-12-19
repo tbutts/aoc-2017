@@ -55,3 +55,39 @@ In this example, ` 8108 ` squares are used across the entire 128x128 grid.
 
 Given your actual key string, _how many squares are used_ ?
 
+##  \--- Part Two ---
+
+Now,  all the defragmenter needs to know  is the number of _regions_ . A
+region is a group of _used_ squares that are all _adjacent_ , not including
+diagonals. Every used square is in exactly one region: lone used squares form
+their own isolated regions, while several adjacent squares all count as a
+single region.
+
+In the example above, the following nine regions are visible, each marked with
+a distinct digit:
+
+    
+    
+      
+       11.2.3..-->
+    .1.2.3.4   
+    ....5.6.   
+    7.8.55.9   
+    .88.5...   
+    88..5..8   
+    .8...8..   
+    88.8.88.-->
+    |      |   
+    V      V
+      
+     
+
+Of particular interest is the region marked ` 8 ` ; while it does not appear
+contiguous in this small view, all of the squares marked ` 8 ` are connected
+when considering the whole 128x128 grid. In total, in this example, ` 1242 `
+regions are present.
+
+_How many regions_ are present given your key string?
+
+Both parts of this puzzle are complete! They provide two gold stars: **
+

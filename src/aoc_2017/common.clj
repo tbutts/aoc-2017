@@ -63,6 +63,16 @@
 ;; Math
 (defn abs [n] (max n (- n)))
 
+;; Search
+(defn bfs
+  [flood-fn pred graph root-vertex]
+  (loop [queue [root-vertex]
+         visited #{}]
+    (if (empty? queue)
+      visited
+      (recur (remove (partial pred graph visited) (into #{} (mapcat flood-fn queue)))
+             (into visited queue)))))
+
 ;; Other
 (defn map-kv [f coll]
   (reduce-kv (fn [m k v] (assoc m k (f v))) (empty coll) coll))
