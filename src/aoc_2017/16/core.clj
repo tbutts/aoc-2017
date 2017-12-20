@@ -22,9 +22,27 @@
         (vec starting-lineup))
        str/join))
 
+(defn endless-waltz
+  [iters starting-lineup steps]
+  (let [dance-cycle
+        (reduce (fn [witnessed lineup]
+                  (if (= (first witnessed) lineup)
+                    (reduced witnessed)
+                    (conj witnessed lineup)))
+                [] (iterate #(dance % steps) starting-lineup))]
+    (nth dance-cycle (mod iters (count dance-cycle)))))
+
 (def prog-lineup (str/join (map #(char (+ 97 %)) (range 16))))
 (defn part1 []
   (->> (input-for-day "16") (.trim) (dance prog-lineup)))
+;; => "ebjpfdgmihonackl"
+(defn part2 []
+  (->> (input-for-day "16") (.trim) (endless-waltz 1e9 prog-lineup)))
+;; => "abocefghijklmndp"
+
+;; Computes in 1.5 seconds.
+;; Cycle detection is much faster than actually iterating 1 billion times,
+;; who would've thought?
 
 (with-test
   (def eg-steps "s1,x3/4,pe/b")
