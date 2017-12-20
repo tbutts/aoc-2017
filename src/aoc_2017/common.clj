@@ -77,3 +77,14 @@
 (defn map-kv [f coll]
   (reduce-kv (fn [m k v] (assoc m k (f v))) (empty coll) coll))
 
+(defn rotate [n coll]
+  (let [[head tail] (split-at n coll)]
+    (concat tail head)))
+
+(defn rotate-r [n coll]
+  (let [[head tail] (split-at (- (count coll) n) coll)]
+    (concat tail head)))
+
+(defn swap-idx [coll i j]
+  (assoc coll i (coll j) j (coll i)))
+
