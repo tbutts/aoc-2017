@@ -60,6 +60,8 @@
        (#(str/replace % " " "0"))))
 (defn hex->binstr [hex] (->> (re-seq #".{4}" hex) (map hexdigit->binstr) str/join))
 
+(def lowercase-alphabet (map #(char (+ (byte \a) %)) (range 26)))
+
 ;; Math
 (defn abs [n] (max n (- n)))
 
