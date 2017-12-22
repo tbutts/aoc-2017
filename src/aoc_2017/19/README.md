@@ -42,3 +42,38 @@ letters will it see_ (in the order it would see them) if it follows the path?
 (The routing diagram is very wide; make sure you view it without line
 wrapping.)
 
+##  \--- Part Two ---
+
+The packet is curious how many steps it needs to go.
+
+For example, using the same routing diagram from the example above...
+
+    
+    
+      
+       |          
+         |  +--+    
+         A  |  C    
+     F---|--|-E---+ 
+         |  |  |  D 
+         +B-+  +--+
+      
+     
+
+...the packet would go:
+
+  * ` 6 ` steps down (including the first line at the top of the diagram). 
+  * ` 3 ` steps right. 
+  * ` 4 ` steps up. 
+  * ` 3 ` steps right. 
+  * ` 4 ` steps down. 
+  * ` 3 ` steps right. 
+  * ` 2 ` steps up. 
+  * ` 13 ` steps left (including the ` F ` it stops on). 
+
+This would result in a total of ` 38 ` steps.
+
+_How many steps_ does the packet need to go?
+
+Both parts of this puzzle are complete! They provide two gold stars: **
+

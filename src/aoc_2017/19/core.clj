@@ -48,24 +48,27 @@
   [grid]
   (loop [pos [0 (find-start grid)]
          dir :s
-         path []]
-    (let [ch (get-in grid pos)]
+         path []
+         steps 0]
+    (let [nsteps (inc steps)
+          ch (get-in grid pos)]
       #_(println [pos dir path ch])
       (case ch
-        (nil \ ) (str/join path)
-        (\| \-) (recur (next-forward dir pos) dir path)
+        (nil \ ) [(str/join path) steps]
+        (\| \-) (recur (next-forward dir pos) dir path nsteps)
         \+      (let [[ndir npos] (next-turn grid dir pos)]
-                  (recur npos ndir path))
+                  (recur npos ndir path nsteps))
         ;; Capitals are path markers (Case statements need literals, so the case
         ;; is copied out long-form here)
         (\A \B \C \D \E \F \G \H \I \J \K \L \M \N \O \P \Q \R \S \T \U \V \W \X \Y \Z)
-        (recur (next-forward dir pos) dir (conj path ch))))))
+        (recur (next-forward dir pos) dir (conj path ch) nsteps)))))
 
 
 (defn parse-input [in]
   (-> in (str/replace #"(^ *\n|\n *$)" "") str/split-lines vec))
 
-(defn part1 [] (-> (input-for-day "19") parse-input follow-tubes)) ; => "GINOWKYXH"
+(defn part1 [] (-> (input-for-day "19") parse-input follow-tubes first))  ; => "GINOWKYXH"
+(defn part2 [] (-> (input-for-day "19") parse-input follow-tubes second)) ; => 16636
 
 (with-test
   (def example "
@@ -77,5 +80,6 @@
      +B-+  +--+
 ")
 
-  (is (= (->> example parse-input follow-tubes) "ABCDEF")))
+  (is (= (->> example parse-input follow-tubes first) "ABCDEF"))
+  (is (= (->> example parse-input follow-tubes second) 38)))
 
