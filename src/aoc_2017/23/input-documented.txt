@@ -1,0 +1,67 @@
+   set b 84
+   set c b
+
+   jnz a non_debug  // in part 2, this jump is taken
+   jnz 1 loop_1
+
+:non_debug
+   mul b 100
+   sub b -100000
+   set c b
+   sub c -17000
+
+:loop_1
+   set f 1   // flag, when 1, indicates that d * e != b, for all d & e
+   set d 2   // d & e are ranges from 2 -> b
+
+      // The loop goes to look for factors of b, but with
+      // no effort made to skip factors already checked,
+      // or break early when one is found.
+      //
+      // If 'b' has factors (other than 1 or b itself),
+      // then 'h' is incremented.
+      //
+      // So this assembly is a not-prime checker.
+
+:loop_2
+   set e 2
+
+:loop_3
+   set g d   // g is arithmetic register
+   mul g e
+   sub g b
+   jnz g 2
+   set f 0   // f is 0 when d * e == b
+   sub e -1
+   set g e
+   sub g b   // if e == b, escape loop-3
+   jnz g loop_3
+
+:loop_2_end_check
+   sub d -1
+   set g d
+   sub g b   // if d == b, escape loop-2
+   jnz g loop_2
+
+   jnz f loop_1_end_check
+
+:inc_h
+   sub h -1
+
+      // from here:
+      // b is the tested number per iteration,
+      // c is the upper bound.
+      //
+      // The step size is +17 (not sure why? I don't
+      // think 17 is significant w/r/t primes)
+      //
+
+:loop_1_end_check
+   set g b
+   sub g c
+   jnz g 2
+   jnz 1 end
+   sub b -17
+   jnz 1 loop_1
+
+:end

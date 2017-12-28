@@ -44,7 +44,21 @@
              (update :pc inc)))
         {:muls muls}))))
 
-(defn part1 [] (-> (input-for-day "23") bizarre-coprocessor :muls))
+(defn prime? [n]
+  (let [certainty-factor (int 5)]
+    (.isProbablePrime (BigInteger/valueOf n) certainty-factor)))
+
+(defn translated-coproc-prog [input]
+  (let [offset (Integer. (re-find #"\d+" input))
+        init   (+ (* offset 100) 100000)
+        end    (+ init 17000 1) ;; +1 because asm is a do-while type of loop
+        step   17]
+    (->> (range init end step)
+         (remove prime?)
+         count)))
+
+(defn part1 [] (-> (input-for-day "23") bizarre-coprocessor :muls))  ; => 6724
+(defn part2 [] (-> (input-for-day "23") translated-coproc-prog))     ; => 903 (in 4ms)
 
 (with-test
   (def example)
