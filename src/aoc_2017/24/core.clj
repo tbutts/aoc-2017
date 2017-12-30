@@ -50,11 +50,27 @@
   [bridge-seqs]
   (reduce (fn [best bseq] (max best (score bseq))) 0 bridge-seqs))
 
+(defn natural-selection-for-bridges
+  "Only the long & strong survive..."
+  [bridges]
+  (second
+   (reduce (fn [[best-len best-score :as best] bseq]
+             (let [len (count bseq)]
+               (cond
+                 (> len best-len) [len (score bseq)]
+                 (= len best-len) [len (max best-score (score bseq))]
+                 :else best)))
+           [0 0] bridges)))
+
 
 (defn input->strongest [input]
   (->> input str->portgraph build-bridges strongest-bridge-score))
 
+(defn input->longest-strongest [input]
+  (->> input str->portgraph build-bridges natural-selection-for-bridges))
+
 (defn part1 [] (->> (input-for-day "24") input->strongest)) ; => 1695
+(defn part2 [] (->> (input-for-day "24") input->longest-strongest)) ; => 1673
 
 (with-test
   (def example (.trim "
