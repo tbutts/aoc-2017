@@ -52,6 +52,7 @@
   (->> input str->tm-instructions run-turing-machine checksum))
 
 (defn part1 [] (->> (input-for-day "25") input->tape-checksum)) ; => 4217
+(defn part2 [] "🎄") ; => Festive cheer
 
 (with-test
   (def example (.trim "

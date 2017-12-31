@@ -31,9 +31,9 @@ You find the _Turing machine blueprints_ (your puzzle input) on a tablet in a
 nearby pile of debris. Looking back up at the broken Turing machine above, you
 can start to identify its parts:
 
-  * A _tape_ which contains ` 0 ` repeated infinitely to the left and right. 
-  * A _cursor_ , which can move left or right along the tape and read or write values at its current position. 
-  * A set of _states_ , each containing rules about what to do based on the current value under the cursor. 
+  * A _tape_ which contains ` 0 ` repeated infinitely to the left and right.
+  * A _cursor_ , which can move left or right along the tape and read or write values at its current position.
+  * A set of _states_ , each containing rules about what to do based on the current value under the cursor.
 
 Each slot on the tape has two possible values: ` 0 ` (the starting value for
 all slots) and ` 1 ` . Based on whether the cursor is pointing at a ` 0 ` or a
@@ -43,12 +43,12 @@ state to use next_ .
 
 For example, suppose you found the following blueprint:
 
-    
-    
-      
+
+
+
        Begin in state A.
     Perform a diagnostic checksum after 6 steps.
-    
+
     In state A:
       If the current value is 0:
         - Write the value 1.
@@ -58,7 +58,7 @@ For example, suppose you found the following blueprint:
         - Write the value 0.
         - Move one slot to the left.
         - Continue with state B.
-    
+
     In state B:
       If the current value is 0:
         - Write the value 1.
@@ -68,16 +68,16 @@ For example, suppose you found the following blueprint:
         - Write the value 1.
         - Move one slot to the right.
         - Continue with state A.
-      
-     
+
+
 
 Running it until the number of steps required to take the listed _diagnostic
 checksum_ would result in the following tape configurations (with the _cursor_
 marked in square brackets):
 
-    
-    
-      
+
+
+
        ... 0  0  0 [0] 0  0 ... (before any steps; about to run state A)
     ... 0  0  0  1 [0] 0 ... (after 1 step;     about to run state B)
     ... 0  0  0 [1] 1  0 ... (after 2 steps;    about to run state A)
@@ -85,8 +85,8 @@ marked in square brackets):
     ... 0 [0] 1  0  1  0 ... (after 4 steps;    about to run state A)
     ... 0  1 [1] 0  1  0 ... (after 5 steps;    about to run state B)
     ... 0  1  1 [0] 1  0 ... (after 6 steps;    about to run state A)
-      
-     
+
+
 
 The CPU can confirm that the Turing machine is working by taking a _diagnostic
 checksum_ after a specific number of steps (given in the blueprint). Once the
@@ -96,4 +96,63 @@ above example, the _diagnostic checksum_ is _` 3 ` _ .
 
 Recreate the Turing machine and save the computer! _What is the diagnostic
 checksum_ it produces once it 's working again?
+
+##  \--- Part Two ---
+
+The Turing machine, and soon the entire computer, springs back to life. A
+console glows dimly nearby, awaiting your command.
+
+
+
+
+       > reboot printer
+    Error: That command requires
+       _priority 50_
+       . You currently have
+       _priority 0_
+       .
+    You must deposit
+       _50 stars_
+       to increase your priority to the required level.
+
+
+
+The console flickers for a moment, and then prints another message:
+
+
+
+
+       _Star_
+       accepted.
+    You must deposit
+       _49 stars_
+       to increase your priority to the required level.
+
+
+
+The _garbage collector_ winks at you, then continues sweeping.
+
+Both parts of this puzzle are complete! They provide two gold stars: **
+
+
+You deposit all **fifty stars** and reboot the printer. Suddenly,
+everything seems a lot less pixelated than before.
+
+"--raise your priority level enough to send the reboot command
+and... hey look, it's printing! I'll bring it to Santa. Thanks!" She
+runs off.
+
+Congratulations! You've finished every puzzle in Advent of Code 2017!
+I hope you had as much fun solving them as I had making them for
+you. I'd love to hear about your adventure; you can get in touch with
+me via contact info on my website or through Twitter.
+
+If you'd like to see more things like this in the future, please
+consider supporting Advent of Code and sharing it with others.
+
+To hear about future projects, you can follow me on Twitter.
+
+I've highlighted the easter eggs in each puzzle, just in case you
+missed any. Hover your mouse over them, and the easter egg will
+appear.
 
